@@ -1,0 +1,69 @@
+    public class Solution
+    {
+
+        private List<List<int>> ClosestXdestination(int numDestinations, int[,] allLocations, int numDeliveries)
+        {
+            //Variavel para retorno do metodo
+            List<List<int>> lstRet = new List<List<int>>();
+
+            //Variavel auxiliar para ordernar as coordenadas
+            List<PlanoRaiz> lstAux = new List<PlanoRaiz>();
+            for (int i = 0; i < numDestinations; i++)
+            {
+                double x_2 = allLocations[i, 0] * allLocations[i, 0];
+                double y_2 = allLocations[i, 1] * allLocations[i, 1];
+                //Descobrindo o root
+                double root = x_2 + y_2;
+                double raiz = Math.Sqrt(root);
+
+                lstAux.Add(new PlanoRaiz(raiz, allLocations[i, 0], allLocations[i, 1]));
+            }
+
+            //Ordenação da lista a partir da raiz
+            lstAux = lstAux.OrderBy(o => o.Raiz).ToList();
+
+            //For para fazer o de para da lista ordenada para a saida estipulada
+            for (int i = 0; i < numDeliveries; i++)
+            {
+                List<int> lstXeY = new List<int>();
+                lstXeY.Add(lstAux[i].X);
+                lstXeY.Add(lstAux[i].Y);
+                lstRet.Add(lstXeY);
+            }
+
+            return lstRet;
+        }
+
+    }
+
+    /// <summary>
+    /// classe para representar o calculo do root e da raiz
+    /// </summary>
+    public class PlanoRaiz
+    {
+        /// <summary>
+        /// construtor da classe
+        /// </summary>
+        /// <param name="p_raiz"></param>
+        /// <param name="p_x"></param>
+        /// <param name="p_y"></param>
+        public PlanoRaiz(double p_raiz, int p_x, int p_y)
+        {
+            Raiz = p_raiz;
+            X = p_x;
+            Y = p_y;
+        }
+
+        /// <summary>
+        /// Raiz calculada a partir do root
+        /// </summary>
+        public double Raiz { get; set; }
+        /// <summary>
+        /// Coordenada x
+        /// </summary>
+        public int X { get; set; }
+        /// <summary>
+        /// Coordenada Y
+        /// </summary>
+        public int Y { get; set; }
+    }
